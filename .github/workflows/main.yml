@@ -10,7 +10,18 @@ jobs:
       # The type of runner that the job will run on
       runs-on: ubuntu-latest
       steps:
-        - run: echo "Obter Código"
+        - name: Checkout
+          uses: actions/Checkout@v5
+        - uses: actions/setup-python@v6
+          with:
+            python-version: '3.11'
+        -name: Install Dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip Install -r requirements.txt
+        -name: Testes
+          run: python -m pytest tests/ -v
+        
         - run: echo "Executar o Docker Build"
         - run: echo "Enviar a imagem Docker para o Docker Hub"
     
