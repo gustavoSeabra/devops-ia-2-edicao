@@ -1,14 +1,17 @@
 name: CI-CD
+# Gatilho da minha action. Ou seja, quando ela executa.
 on:
   push:
     branches: ["main"]
+  # Informo que posso executar minha pipe de forma manual
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# Aqui eu crio os meus jobs da pipeline CI e CD
 jobs:
     CI:
-      # The type of runner that the job will run on
+      # Onde minha pipe vai rodar. (Se vai ser windows, linux e etc)
       runs-on: ubuntu-latest
+      # passos a serem executados do meu job.
       steps:
         - name: Checkout
           uses: actions/Checkout@v5
@@ -31,8 +34,11 @@ jobs:
         - run: echo "Enviar a imagem Docker para o Docker Hub"
     
     CD:
+      # Onde minha pipe vai rodar. (Se vai ser windows, linux e etc)
       runs-on: ubuntu-latest
+      # Informo que para rodar esta etapa eu preciso de ter concluído com sucesso o passo anterior
       needs: [CI]
+       # passos a serem executados do meu job.
       steps:
         - run: echo "Obter Código"
         - run: echo "Configurar o Kubeconfig"
